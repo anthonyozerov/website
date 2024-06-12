@@ -1,0 +1,24 @@
+<!--#include virtual="/head.html"-->
+  <title>Finances of Members of Congress</title>
+  <link rel="stylesheet" href="/stylesheets/prettified.css">
+</head>
+
+<body>
+  <h1>Finances of Members of Congress</h1>
+  <!--#include virtual="/header.html"-->
+  <p>I found some data<sup><a href="#fn1" id="r1">[1]</a></sup> on the net worths of members of Congress (in 2018) at the website of the Center for Responsive Politics. Unfortunately, this data is in a big HTML table and I could not find a spreadsheet or anything. I wrote some code in Python to scrape the webpage and do a little bit of analysis:
+  <pre class="codeblock" style=""><span class="kwd">import</span><span class="pln">&nbsp;pandas&nbsp;</span><span class="kwd">as</span><span class="pln">&nbsp;pd<br></span><span class="kwd">import</span><span class="pln">&nbsp;requests<br><br>r</span><span class="pun">=</span><span class="pln">requests</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">"https://www.opensecrets.org/personal-finances/top-net-worth"</span><span class="pun">)</span><span class="pln"><br>df</span><span class="pun">=</span><span class="pln">pd</span><span class="pun">.</span><span class="typ">DataFrame</span><span class="pun">(</span><span class="pln">pd</span><span class="pun">.</span><span class="pln">read_html</span><span class="pun">(</span><span class="pln">r</span><span class="pun">.</span><span class="pln">text</span><span class="pun">)[</span><span class="lit">0</span><span class="pun">])</span><span class="pln"><br><br>df</span><span class="pun">[</span><span class="str">"Average"</span><span class="pun">]</span><span class="pln">&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;df</span><span class="pun">[</span><span class="str">"Average"</span><span class="pun">].</span><span class="pln">replace</span><span class="pun">(</span><span class="str">'[\$,]'</span><span class="pun">,</span><span class="pln">&nbsp;</span><span class="str">''</span><span class="pun">,</span><span class="pln">&nbsp;regex</span><span class="pun">=</span><span class="kwd">True</span><span class="pun">).</span><span class="pln">astype</span><span class="pun">(</span><span class="kwd">float</span><span class="pun">)</span><span class="pln"><br><br>dem</span><span class="pun">=</span><span class="pln">df</span><span class="pun">[</span><span class="pln">df</span><span class="pun">[</span><span class="str">'Name'</span><span class="pun">].</span><span class="pln">str</span><span class="pun">.</span><span class="pln">contains</span><span class="pun">(</span><span class="str">"D-"</span><span class="pun">)]</span><span class="pln"><br>rep</span><span class="pun">=</span><span class="pln">df</span><span class="pun">[</span><span class="pln">df</span><span class="pun">[</span><span class="str">'Name'</span><span class="pun">].</span><span class="pln">str</span><span class="pun">.</span><span class="pln">contains</span><span class="pun">(</span><span class="str">"R-"</span><span class="pun">)]</span><span class="pln"><br><br><br></span><span class="kwd">print</span><span class="pun">(</span><span class="str">"Median&nbsp;for&nbsp;Democrat&nbsp;members&nbsp;of&nbsp;Congress:&nbsp;&nbsp;&nbsp;$"</span><span class="pun">+</span><span class="pln">str</span><span class="pun">(</span><span class="pln">dem</span><span class="pun">[</span><span class="str">"Average"</span><span class="pun">].</span><span class="pln">median</span><span class="pun">()))</span><span class="pln"><br></span><span class="kwd">print</span><span class="pun">(</span><span class="str">"Median&nbsp;for&nbsp;Republican&nbsp;members&nbsp;of&nbsp;Congress:&nbsp;$"</span><span class="pun">+</span><span class="pln">str</span><span class="pun">(</span><span class="pln">rep</span><span class="pun">[</span><span class="str">"Average"</span><span class="pun">].</span><span class="pln">median</span><span class="pun">()))</span></pre>
+  <pre class="codeblock-result">
+  <span>Median for Democrat members of Congress:&nbsp;&nbsp;&nbsp;$1165006.5</span><br><span>Median for Republican members of Congress:&nbsp;$1191022.0</span>
+  </pre>
+  <p>Python file: <span class="code"><a href="networth.py">networth.py</a></span></p>
+  <p>IPython notebook <span class="code"><a href="networth.ipynb">networth.ipynb</a></span></p>
+  
+  <div class="footnote">
+  <hr>
+  <p id="fn1"><a href="#r1">[1]</a>“Net Worth - 2018.” OpenSecrets, The Center for Responsive Politics, <a href="https://www.opensecrets.org/personal-finances/top-net-worth">https://www.opensecrets.org/personal-finances/top-net-worth</a>. Accessed 12 Mar. 2021.
+  </div>
+  <!--#include virtual="/footer.html"-->
+
+</body>
+</html>

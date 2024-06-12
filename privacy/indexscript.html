@@ -1,0 +1,55 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="https://aozerov.com/favicon.png">
+  <title>Privacy</title>
+  <meta name="description" content="A site where I put my stuff">
+  <meta name="author" content="Anthony Ozerov">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" type="text/css" href="/google-code-prettify/prettify.css">
+  <script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
+</head>
+
+<body onload="PR.prettyPrint()">
+  <!--#include virtual="/stylesheets/basic.css"-->
+  <h1>Privacy 👀</h1>
+  <!--#include virtual="/header.html"-->
+  <h2>Basics</h2>
+  <p>This website does not use cookies, even for MathJax; a janky solution was used to make MathJax unable to store cookies. The only local storage done by the server is some caching of frequently-loaded resources, to improve speed. All data is served over HTTPS, so all of your communications with this server are encrypted. All resources are stored at the server, so this website makes 0 connections to external servers.</p>
+  <h2>Tor</h2>
+  <p>To maximize privacy, this website is also available through Tor as an onion service <a href = "http://ylulzi6yvfrlxa4apza64yuqzlj6wwp23uweecq7mru3uk3gaiqcuwad.onion">here</a>, because why not. If you are currently using Tor, the website should have automatically redirected you from its <a href = "https://aozerov.com">clearnet domain</a> to the onion service. <a href="https://matt.traudt.xyz/p/F5CgSnMk.html">Here</a> is a good description of how such a redirect can be set up.</p>
+  <h2>Logs</h2>
+  <p>This website logs every visit for debugging purposes. The log is anonymized by replacing the last characters of the IP address with 0. It is also emptied every 24 hours. <a href="websitelog.txt">Here</a> is the log. Feel free to do whatever you want with it.</p>
+  <p>Here is the code I use to anonymize <span class="code">access.log</span>, placed in the <span class="code">html{}</span> context of <span class="code">nginx.conf</span>:</p>
+  <pre class="prettyprint codeblock">
+    map $remote_addr $ip_anonym1 {<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;default 0.0.0;<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;"~(?P&ltip&gt(\d+)\.(\d+)\.(\d+))\.\d+" $ip;<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;"~(?P&ltip&gt[^:]+:[^:]+):" $ip;<br>
+    }<br>
+
+    map $remote_addr $ip_anonym2 {<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;default .0;<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;"~(?P&ltip&gt(\d+)\.(\d+)\.(\d+))\.\d+" .0;<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;"~(?P&ltip&gt[^:]+:[^:]+):" ::;<br>
+    }<br>
+
+    map $ip_anonym1$ip_anonym2 $ip_anonymized {<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;default 0.0.0.0;<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;"~(?P&ltip&gt.*)" $ip;<br>
+    }<br>
+
+    log_format anonymized '$ip_anonymized - $remote_user [$time_local] '<br> 
+    '"$request" $status $body_bytes_sent ' <br>
+    '"$http_referer" "$http_user_agent"';<br>
+
+  access_log /var/log/nginx/access.log anonymized;
+  </pre>
+  <p>This code may or may not have been shamelessly stolen from <a href="https://stackoverflow.com/questions/6477239/anonymize-ip-logging-in-nginx#27749834">this</a> stackexchange post
+  <!--#include virtual="/footer.html"-->
+
+</body>
+</html>

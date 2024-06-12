@@ -1,0 +1,20 @@
+<!--#include virtual="/head.html"-->
+  <title>Meta</title>
+</head>
+
+<body>
+  <h1>Meta</h1>
+  <!--#include virtual="/header.html"-->
+  <h2>Hosting</h2>
+  <p>Currently, this site is served by an nginx web server running on Ubuntu on a DigitalOcean droplet. This allows me to do various fun server-side things and host other services, too. For example, I host a Nextcloud instance on the same droplet at <a href="https://cloud.aozerov.com">cloud.aozerov.com</a>.</p>
+  <h2>Who needs static site generators when you can just use server-side includes?</h2>
+  <p>When I first started making this site, I realized that I wanted a common header and footer on every page. I thought that there definitely must be a better way than just manually propagating header and footer changes through all of the pages. In my research, I came across many static site generators, including <a href="https://gohugo.io/">Hugo</a>, <a href="https://wordpress.org/">WordPress</a>, and many more. But I wanted my website to be my own, so I sought a better way.</p>
+  <p>I came across <a href="https://en.wikipedia.org/wiki/Server_Side_Includes">Server Side Includes</a>, a simple server-side scripting language. Using SSI, I can simply add <span class="code">&lt!--#include virtual="/header.html--&gt</span>  to my html files to have the server drop in the text from my <span class="code">header.html</span>  file when serving the content to the user. I do the same for the footer file.</p>
+  <p>Server-side, it is enabled in my website's nginx configuration file with the code <span class="code">ssi on;</span>  in the <span class="code">location /</span>  context.</p>
+
+  <h2>Pretty code</h2>
+  <p>To make the code shown on this website pretty, I use <a href="https://github.com/google/code-prettify">code-prettify</a>, a JavaScript library that makes code pretty. I make the pages run without JavaScript by having the prettifier make the text pretty, then simply copying <i>that</i> HTML into my pages. <a href="/projects/programming/prettifier">Here</a> is a page I made where you can generate prettified code to simply drop into your page.</p>
+  <!--#include virtual="/footer.html"-->
+
+</body>
+</html>

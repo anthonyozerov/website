@@ -1,0 +1,18 @@
+<!--#include virtual="/head.html"-->
+  <title>Downloading NOAA data using Python</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/prettified.css">
+</head>
+
+<body>
+  <h1>Downloading NOAA data using Python</h1>
+  <!--#include virtual="/header.html"-->
+  <p>In several projects, I have had to download climate data files from NOAA's FTP servers. Here is some example code for doing that in Python:</p>
+  <pre class="codeblock">
+    <span class="kwd">for</span><span class="pln">&nbsp;i&nbsp;</span><span class="kwd">in</span><span class="pln">&nbsp;range&nbsp;</span><span class="pun">(</span><span class="lit">1950</span><span class="pun">,</span><span class="pln">&nbsp;</span><span class="lit">2019</span><span class="pun">):</span><span class="pln"><br>&nbsp;&nbsp;&nbsp;&nbsp;ftp&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;FTP</span><span class="pun">(</span><span class="str">'ftp.cdc.noaa.gov'</span><span class="pun">)</span><span class="pln"><br>&nbsp;&nbsp;&nbsp;&nbsp;ftp</span><span class="pun">.</span><span class="pln">login</span><span class="pun">()</span><span class="pln"><br>&nbsp;&nbsp;&nbsp;&nbsp;ftp</span><span class="pun">.</span><span class="pln">cwd</span><span class="pun">(</span><span class="str">'/Datasets/ncep.reanalysis.dailyavgs/surface'</span><span class="pun">)</span><span class="pln"><br>&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;open</span><span class="pun">(</span><span class="str">"[name-of-directory]/y%s.nc"</span><span class="pln">&nbsp;</span><span class="pun">%</span><span class="pln">i</span><span class="pun">,</span><span class="pln">&nbsp;</span><span class="str">'wb'</span><span class="pun">)</span><span class="pln"><br>&nbsp;&nbsp;&nbsp;&nbsp;ftp</span><span class="pun">.</span><span class="pln">retrbinary</span><span class="pun">(</span><span class="str">'RETR&nbsp;air.sig995.%s.nc'</span><span class="pln">&nbsp;</span><span class="pun">%</span><span class="pln">i</span><span class="pun">,</span><span class="pln">&nbsp;file</span><span class="pun">.</span><span class="pln">write</span><span class="pun">)</span><span class="pln"><br>&nbsp;&nbsp;&nbsp;&nbsp;ftp</span><span class="pun">.</span><span class="pln">quit</span><span class="pun">()</span>
+  </pre>
+  <p>Here, I have it set up to pull the files from <span class="code">air.sig.995.1950.nc</span> to <span class="code">air.sig.995.2019.nc</span> from the directory <span class="code">/Datasets/ncep.reanalysis.dailyavgs/surface</span> on the server <span class="code">ftp.cdc.noaa.gov</span>, naming them from <span class="code">y1950.nc</span> to <span class="code">y2019.nc</span> and putting them in the directory <span class="code">[name-of-directory]</span>. The parameters for the functions can be changed to whatever you like to fit your needs.</p>
+  <p>Sometimes it is necessary to combine all of the <span class="code">.nc</span> files into one, for which I use the Linux program <span class="code">ncrcat</span>.
+  <!--#include virtual="/footer.html"-->
+  
+</body>
+</html>

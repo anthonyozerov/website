@@ -1,0 +1,89 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="https://aozerov.com/favicon.png">
+  <title>Maps</title>
+  <meta name="description" content="A site where I put my stuff">
+  <meta name="author" content="Anthony Ozerov">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" type="text/css" href="/google-code-prettify/prettify.css">
+  <script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
+</head>
+
+<body onload="PR.prettyPrint()">
+  <!--#include virtual="/stylesheets/basic.css"-->
+  <h1>Maps</h1>
+  <!--#include virtual="/header.html"-->
+  <p>I like making maps. Here are some that I've made:</p>
+  <h2>A sinusoidal projection, but with 100 slices</h2>
+  <img src="100.png" class="wider" alt="A sinusoidal projection with 100 slices">
+  <p>This map may look like a normal equirectangular projection at first glance, but that is deceit! If you look closely, it is divided into 100 evenly-sized slices. These slices use a sine function to change the x-coordinates in every slice according to their distance from the equator. Using this transformation, the map actually becomes an equal-area projection, meaning that areas are preserved. What I find interesting is that the gut reaction to this projection is <i>no, there's no way that's equal-area</i>, because our eyes and brain try to interpolate the data in the blank spaces. But that interpolation need not be done, because all of the data is already in the slices!</p>
+  <p>Here is the code I used to make this map:</p>
+  <pre class="prettyprint lang-py codeblock">
+    import numpy as np<br>
+    import scipy.misc as smp<br>
+    from PIL import Image<br>
+    import requests<br>
+    import io<br>
+    import math<br>
+    <br>
+    r = requests.get('https://upload.wikimedia.org/wikipedia/commons/e/ea/Equirectangular-projection.jpg')<br>
+    im = Image.open(io.BytesIO(r.content))<br>
+    pix = im.load()<br>
+    map $remote_addr $ip_anonym2 {<br>
+    data = np.zeros((1025,2048,3), dtype=np.uint8)<br>
+    img = smp.toimage( data )       # Create a PIL image<br>
+    img.show()<br>
+    <br>
+    n=100 #the number of slices<br>
+    deg=2048 #the width of the image<br>
+    ypix=512 #the height of the image divided by 2<br>
+    for x in range (0, deg):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;k=math.ceil((x/deg)*n)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;if k == 0:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k=1<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;for y in range (0, 2*ypix):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ydeg=(y-ypix)*180/(2*ypix)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#interrupted sinusoidal<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x2 = (k-1)/n*deg+deg/(2*n)+((((k-1)/n)*deg+deg/(2*n)-x)*(-1*abs(math.cos(math.radians(ydeg)))))<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#interrupted triangles, if you want to try it out<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#x2 = (k-1)/n*deg+deg/(2*n)+((((k-1)/n)*deg+deg/(2*n)-x)*(-1*((abs(abs(ydeg)-90))/90)**1))<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y2 = y<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data[math.ceil(y2)-1,(math.ceil(x2))-1]=pix[x,y]<br>
+    img = smp.toimage( data )       # Create a PIL image<br>
+    img.show() <br>
+  </pre>
+  <p>The code uses <a href="https://upload.wikimedia.org/wikipedia/commons/e/ea/Equirectangular-projection.jpg">this</a> equirectangular projection as an input. Equirectangular projections are convenient to work with because the coordinates of the pixels map proportionally to latitude and longitude.</p>
+  
+
+  <h2>Stylized map of my neighborhood</h2>
+  <img src="neighborhoodtransport.svg" class="wider" alt="A sinusoidal projection with 100 slices">
+  <p>I made this map in <a href="https://www.qgis.org/en/site/">QGIS3</a>, using openstreetmap data I downloaded using <a href="https://www.openstreetmap.org">openstreetmap.org</a>'s export function. I used a set of rules to give the map the following properties:</p>
+  <ul>
+    <li>No roads shown</li>
+    <li>Fences and other barriers shown as dotted lines</li>
+    <li>Public transport routes shown in black</li>
+    <li>Public transport stops shown in blue</li>
+    <li>Hospitals shown in red and pink</li>
+  </ul>
+  <p>QGIS uses an SQL-like format to set the style rules. By default, nothing is shown. I used these rules to choose the shown features:</p>
+  <p class="nospace">Map lines:</p>
+  <pre class="prettyprint lang-sql codeblock">"barrier" = 'fence' OR  "barrier" = 'wall' OR "barrier" = 'hedge'</pre>
+  <p class="nospace">Map multi-line strings:</p>
+  <pre class="prettyprint lang-sql codeblock">"other_tags" like '%"route"=>"subway"%' OR "other_tags" like '%"route"=>"railway"%'<br>
+    "other_tags" like '%"route"=>"bus"%'OR "other_tags" like '%"route"=>"trolleybus"%' OR "other_tags" like '%"route"=>"tram"%'</pre>
+  <p class="nospace">Map points:</p>
+  <pre class="prettyprint lang-sql codeblock">"other_tags" like '%"public_transport"=>"stop_position"%' OR "other_tags" like '%"railway"=>"subway_entrance"%'</pre>
+  <p class="nospace">Map multi-polygons:</p>
+  <pre class="prettyprint lang-sql codeblock">"amenity" = 'clinic' OR  "amenity" = 'hospital'<br>
+    "building" = 'hospital'<br>
+    "building" IS NOT NULL</pre>
+  <p>I then applied different colours and borders to the different rules above, creating the map seen above.</p>
+    
+  <!--#include virtual="/footer.html"-->
+
+</body>
+</html>

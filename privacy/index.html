@@ -1,0 +1,19 @@
+<!--#include virtual="/head.html"-->
+  <title>Privacy</title>
+  <link rel="stylesheet" href="/stylesheets/prettified.css">
+</head>
+
+<body>
+  <h1>Privacy 👀</h1>
+  <!--#include virtual="/header.html"-->
+  <h2>Basics</h2>
+  <p>This website does not use cookies, even for MathJax; a janky solution was used to make MathJax unable to store cookies. The only local storage done by the server is some caching of frequently-loaded resources, to improve speed. All data is served over HTTPS, so all of your communications with this server are encrypted. All resources are stored at the server, so this website makes 0 connections to external servers.</p>
+  <h2>Tor</h2>
+  <p>To maximize privacy, this website is also available through Tor as an onion service <a href = "http://ylulzi6yvfrlxa4apza64yuqzlj6wwp23uweecq7mru3uk3gaiqcuwad.onion">here</a>, because why not. If you are currently using Tor, the website should have automatically redirected you from its <a href = "https://aozerov.com">clearnet domain</a> to the onion service. <a href="https://matt.traudt.xyz/p/F5CgSnMk.html">Here</a> is a good description of how such a redirect can be set up.</p>
+  <h2>Logs</h2>
+  <p>This website logs every visit for debugging purposes. The log is anonymized by replacing the last characters of the IP address with 0. It is also emptied every 24 hours.</p>
+  <p>The code I use to anonymize <span class="code">access.log</span>, placed in the <span class="code">http{}</span> context of <span class="code">nginx.conf</span>, can be seen at <a href="https://stackoverflow.com/questions/6477239/anonymize-ip-logging-in-nginx#27749834">this</a> stackexchange post.</p>
+  <!--#include virtual="/footer.html"-->
+
+</body>
+</html>

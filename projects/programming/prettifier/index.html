@@ -1,0 +1,92 @@
+<!--#include virtual="/head.html"-->
+  <title>Prettifier</title>
+  <link rel="stylesheet" type="text/css" href="/google-code-prettify/prettify.css">
+  <script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
+  <script>
+      var outputcode=""
+      function prettify(){
+        var element=document.getElementById("input");
+        var text=document.getElementById("input").value;
+        var output=document.getElementById("output");
+        var placeholder=document.getElementById("inputreset")
+
+        newtext = text.split(' ').join('&nbsp');//replace spaces with html-acceptable spaces
+        newtext = newtext.split('<').join('&lt').split('>').join('&gt');
+        placeholder.innerHTML=newtext; //what if I just use another element as a placeholder?
+
+
+        PR.prettyPrint();
+        
+        
+        outputcode=placeholder.innerHTML;
+        var lines = outputcode.split('\n');
+        newstr=""
+        newstr=newstr.concat(lines[0]);
+        for(var i = 1;i < lines.length;i++){
+          newstr=newstr.concat("<br>",lines[i]); //add <br> to end of each line
+        }
+        
+        output.value=newstr;
+        resizeTextarea('output');
+        preview=document.getElementById("preview")
+        preview.innerHTML=newstr;
+
+      }
+      function reset(){
+        inputreset=document.getElementById("inputreset")
+        inputreset.className="prettyprint";
+        output=document.getElementById("output")
+        output.value=""
+        
+      }
+      function textAreaChange(){
+        //input=document.getElementById("input");
+        //var end = input.selectionEnd;
+
+        reset();
+        prettify();
+        resizeTextarea();
+        
+        //input.focus();
+        //input.selectionEnd= end + 1;
+        //input.selectionStart= end + 1;
+      }
+      function resizeTextarea () {
+        var a = document.getElementById("input");
+        var b = document.getElementById("output");
+        a.style.height = 'auto';
+        a.style.height = a.scrollHeight+'px';
+        b.style.height = 'auto';
+        b.style.height = b.scrollHeight+'px';
+      }
+
+      function init() {
+        var a = document.getElementsByTagName('textarea');
+        for(var i=0,inb=a.length;i<inb;i++) {
+           if(a[i].getAttribute('data-resizable')=='true')
+            resizeTextarea(a[i].id);
+        }
+      }
+
+addEventListener('DOMContentLoaded', init);
+  </script>
+</head>
+
+<body>
+  <h1>Code Prettifier</h1>
+  <!--#include virtual="/header.html"-->
+  <p>The program should be able to automatically detect the language of your code and style it accordingly. Input your code here:</p>
+  
+  <textarea class="prettyprint" style="width:100%;" id="input" onkeyup="textAreaChange()"></textarea>
+  <p>Preview:</p>
+  <pre id="preview" class="codeblock"></pre>
+  <p>Get the HTML code out here:</p>
+  <textarea class="prettyprint" style="width:100%;" id="output"></textarea>
+  <p>Once you have prettified the text, you can simply copy the HTML code above. Using it on your webpage requires that the page has the prettify.css stylesheet loaded. It is available <a href="https://raw.githubusercontent.com/googlearchive/code-prettify/master/src/prettify.css">here</a>.</p>
+  <p>Note: this is one of the few pages on this site that requires JavaScript to be enabled.</p>
+  <div hidden><pre class="prettyprint" id="inputreset"></pre></div>
+  
+  <!--#include virtual="/footer.html"-->
+  
+</body>
+</html>
