@@ -1,0 +1,8 @@
+FNAME=$1
+FNAME_NOEXT=${1%.*}
+FNAME_NOPATH=${1##*/}
+FNAME_NOPATHEXT=${FNAME_NOPATH%.*}
+black $FNAME
+nbstripout --extra-keys="metadata.kernelspec" --keep-output -t $FNAME |
+jq --indent 1 ".metadata.title=\"$FNAME_NOPATHEXT\"" |
+jupyter nbconvert --stdin --to html --template lab-aozerov --no-prompt --output $FNAME_NOEXT
