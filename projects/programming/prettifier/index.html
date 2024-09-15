@@ -1,5 +1,5 @@
+<!--#set var="title" value="Code prettifier"-->
 <!--#include virtual="/head.html"-->
-  <title>Prettifier</title>
   <link rel="stylesheet" type="text/css" href="/google-code-prettify/prettify.css">
   <script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
   <script>
@@ -16,8 +16,7 @@
 
 
         PR.prettyPrint();
-        
-        
+
         outputcode=placeholder.innerHTML;
         var lines = outputcode.split('\n');
         newstr=""
@@ -25,7 +24,7 @@
         for(var i = 1;i < lines.length;i++){
           newstr=newstr.concat("<br>",lines[i]); //add <br> to end of each line
         }
-        
+
         output.value=newstr;
         resizeTextarea('output');
         preview=document.getElementById("preview")
@@ -37,7 +36,7 @@
         inputreset.className="prettyprint";
         output=document.getElementById("output")
         output.value=""
-        
+
       }
       function textAreaChange(){
         //input=document.getElementById("input");
@@ -46,7 +45,7 @@
         reset();
         prettify();
         resizeTextarea();
-        
+
         //input.focus();
         //input.selectionEnd= end + 1;
         //input.selectionStart= end + 1;
@@ -70,23 +69,18 @@
 
 addEventListener('DOMContentLoaded', init);
   </script>
-</head>
 
-<body>
-  <h1>Code Prettifier</h1>
   <!--#include virtual="/header.html"-->
-  <p>The program should be able to automatically detect the language of your code and style it accordingly. Input your code here:</p>
-  
-  <textarea class="prettyprint" style="width:100%;" id="input" onkeyup="textAreaChange()"></textarea>
-  <p>Preview:</p>
-  <pre id="preview" class="codeblock"></pre>
-  <p>Get the HTML code out here:</p>
-  <textarea class="prettyprint" style="width:100%;" id="output"></textarea>
-  <p>Once you have prettified the text, you can simply copy the HTML code above. Using it on your webpage requires that the page has the prettify.css stylesheet loaded. It is available <a href="https://raw.githubusercontent.com/googlearchive/code-prettify/master/src/prettify.css">here</a>.</p>
-  <p>Note: this is one of the few pages on this site that requires JavaScript to be enabled.</p>
-  <div hidden><pre class="prettyprint" id="inputreset"></pre></div>
-  
-  <!--#include virtual="/footer.html"-->
-  
-</body>
-</html>
+
+<p>The program should be able to automatically detect the language of your code and style it accordingly. Input your code here:</p>
+
+<textarea class="prettyprint" style="width:100%;" id="input" onkeyup="textAreaChange()"></textarea>
+<p>Preview:</p>
+<pre id="preview" class="codeblock"></pre>
+<p>Get the HTML code out here:</p>
+<textarea class="prettyprint" style="width:100%;" id="output"></textarea>
+<p>Once you have prettified the text, you can simply copy the HTML code above. Using it on your webpage requires that the page has the prettify.css stylesheet loaded. It is available <a href="https://raw.githubusercontent.com/googlearchive/code-prettify/master/src/prettify.css">here</a>.</p>
+<p>Note: this is one of the few pages on this site that requires JavaScript to be enabled.</p>
+<div hidden><pre class="prettyprint" id="inputreset"></pre></div>
+
+<!--#include virtual="/footer.html"-->

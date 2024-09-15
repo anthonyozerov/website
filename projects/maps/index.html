@@ -1,79 +1,72 @@
+<!--#set var="title" value="Maps"-->
 <!--#include virtual="/head.html"-->
-  <title>Maps</title>
-  <link rel="stylesheet" href="/stylesheets/prettified.css">
+<link rel="stylesheet" href="/stylesheets/prettified.css">
+<!--#include virtual="/header.html"-->
 
-</head>
+<p>I like making maps. Here are some that I've made:</p>
+<h2>A sinusoidal projection, but with 100 slices</h2>
+<img src="100.png" class="wider" alt="A sinusoidal projection with 100 slices">
+<p>This map may look like a normal equirectangular projection at first glance, but that is deceit! If you look closely, it is divided into 100 evenly-sized slices. These slices use a sine function to change the x-coordinates in every slice according to their distance from the equator. Using this transformation, the map actually becomes an equal-area projection, meaning that areas are preserved. What I find interesting is that the gut reaction to this projection is <i>no, there's no way that's equal-area</i>, because our eyes and brain try to interpolate the data in the blank spaces. But that interpolation need not be done, because all of the data is already in the slices.</p>
+<p>Here is the code I used to make this map:</p>
+<pre class="codeblock" style=""><span class="pln">    </span><span class="kwd">import</span><span class="pln"> numpy </span><span class="kwd">as</span><span class="pln"> np</span><br><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> scipy</span><span class="pun">.</span><span class="pln">misc </span><span class="kwd">as</span><span class="pln"> smp</span><br><span class="pln">
+</span><span class="kwd">from</span><span class="pln"> PIL </span><span class="kwd">import</span><span class="pln"> </span><span class="typ">Image</span><br><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> requests</span><br><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> io</span><br><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> math</span><br><span class="pln">
+</span><br><span class="pln">
+r </span><span class="pun">=</span><span class="pln"> requests</span><span class="pun">.</span><span class="pln">get</span><span class="pun">(</span><span class="str">'https://upload.wikimedia.org/wikipedia/commons/e/ea/Equirectangular-projection.jpg'</span><span class="pun">)</span><br><span class="pln">
+im </span><span class="pun">=</span><span class="pln"> </span><span class="typ">Image</span><span class="pun">.</span><span class="pln">open</span><span class="pun">(</span><span class="pln">io</span><span class="pun">.</span><span class="typ">BytesIO</span><span class="pun">(</span><span class="pln">r</span><span class="pun">.</span><span class="pln">content</span><span class="pun">))</span><br><span class="pln">
+pix </span><span class="pun">=</span><span class="pln"> im</span><span class="pun">.</span><span class="pln">load</span><span class="pun">()</span><br><span class="pln">
+map $remote_addr $ip_anonym2 </span><span class="pun">{</span><br><span class="pln">
+data </span><span class="pun">=</span><span class="pln"> np</span><span class="pun">.</span><span class="pln">zeros</span><span class="pun">((</span><span class="lit">1025</span><span class="pun">,</span><span class="lit">2048</span><span class="pun">,</span><span class="lit">3</span><span class="pun">),</span><span class="pln"> dtype</span><span class="pun">=</span><span class="pln">np</span><span class="pun">.</span><span class="pln">uint8</span><span class="pun">)</span><br><span class="pln">
+img </span><span class="pun">=</span><span class="pln"> smp</span><span class="pun">.</span><span class="pln">toimage</span><span class="pun">(</span><span class="pln"> data </span><span class="pun">)</span><span class="pln">       </span><span class="com"># Create a PIL image</span><br><span class="pln">
+img</span><span class="pun">.</span><span class="pln">show</span><span class="pun">()</span><br><span class="pln">
+</span><br><span class="pln">
+n</span><span class="pun">=</span><span class="lit">100</span><span class="pln"> </span><span class="com">#the number of slices</span><br><span class="pln">
+deg</span><span class="pun">=</span><span class="lit">2048</span><span class="pln"> </span><span class="com">#the width of the image</span><br><span class="pln">
+ypix</span><span class="pun">=</span><span class="lit">512</span><span class="pln"> </span><span class="com">#the height of the image divided by 2</span><br><span class="pln">
+</span><span class="kwd">for</span><span class="pln"> x </span><span class="kwd">in</span><span class="pln"> range </span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> deg</span><span class="pun">):</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;k</span><span class="pun">=</span><span class="pln">math</span><span class="pun">.</span><span class="pln">ceil</span><span class="pun">((</span><span class="pln">x</span><span class="pun">/</span><span class="pln">deg</span><span class="pun">)*</span><span class="pln">n</span><span class="pun">)</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">if</span><span class="pln"> k </span><span class="pun">==</span><span class="pln"> </span><span class="lit">0</span><span class="pun">:</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k</span><span class="pun">=</span><span class="lit">1</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">for</span><span class="pln"> y </span><span class="kwd">in</span><span class="pln"> range </span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pun">*</span><span class="pln">ypix</span><span class="pun">):</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ydeg</span><span class="pun">=(</span><span class="pln">y</span><span class="pun">-</span><span class="pln">ypix</span><span class="pun">)*</span><span class="lit">180</span><span class="pun">/(</span><span class="lit">2</span><span class="pun">*</span><span class="pln">ypix</span><span class="pun">)</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#interrupted sinusoidal</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x2 </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">k</span><span class="pun">-</span><span class="lit">1</span><span class="pun">)/</span><span class="pln">n</span><span class="pun">*</span><span class="pln">deg</span><span class="pun">+</span><span class="pln">deg</span><span class="pun">/(</span><span class="lit">2</span><span class="pun">*</span><span class="pln">n</span><span class="pun">)+((((</span><span class="pln">k</span><span class="pun">-</span><span class="lit">1</span><span class="pun">)/</span><span class="pln">n</span><span class="pun">)*</span><span class="pln">deg</span><span class="pun">+</span><span class="pln">deg</span><span class="pun">/(</span><span class="lit">2</span><span class="pun">*</span><span class="pln">n</span><span class="pun">)-</span><span class="pln">x</span><span class="pun">)*(-</span><span class="lit">1</span><span class="pun">*</span><span class="pln">abs</span><span class="pun">(</span><span class="pln">math</span><span class="pun">.</span><span class="pln">cos</span><span class="pun">(</span><span class="pln">math</span><span class="pun">.</span><span class="pln">radians</span><span class="pun">(</span><span class="pln">ydeg</span><span class="pun">)))))</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#interrupted triangles, if you want to try it out</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#x2 = (k-1)/n*deg+deg/(2*n)+((((k-1)/n)*deg+deg/(2*n)-x)*(-1*((abs(abs(ydeg)-90))/90)**1))</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y2 </span><span class="pun">=</span><span class="pln"> y</span><br><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data</span><span class="pun">[</span><span class="pln">math</span><span class="pun">.</span><span class="pln">ceil</span><span class="pun">(</span><span class="pln">y2</span><span class="pun">)-</span><span class="lit">1</span><span class="pun">,(</span><span class="pln">math</span><span class="pun">.</span><span class="pln">ceil</span><span class="pun">(</span><span class="pln">x2</span><span class="pun">))-</span><span class="lit">1</span><span class="pun">]=</span><span class="pln">pix</span><span class="pun">[</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">]</span><br><span class="pln">
+img </span><span class="pun">=</span><span class="pln"> smp</span><span class="pun">.</span><span class="pln">toimage</span><span class="pun">(</span><span class="pln"> data </span><span class="pun">)</span><span class="pln">       </span><span class="com"># Create a PIL image</span><br><span class="pln">
+img</span><span class="pun">.</span><span class="pln">show</span><span class="pun">()</span><span class="pln"> </span><br><span class="pln">
+</span></pre>
+<p>The code uses <a href="https://upload.wikimedia.org/wikipedia/commons/e/ea/Equirectangular-projection.jpg">this</a> equirectangular projection as an input. Equirectangular projections are convenient to work with because the coordinates of the pixels map proportionally to latitude and longitude.</p>
 
-<body>
-  <h1>Maps</h1>
-  <!--#include virtual="/header.html"-->
-  <p>I like making maps. Here are some that I've made:</p>
-  <h2>A sinusoidal projection, but with 100 slices</h2>
-  <img src="100.png" class="wider" alt="A sinusoidal projection with 100 slices">
-  <p>This map may look like a normal equirectangular projection at first glance, but that is deceit! If you look closely, it is divided into 100 evenly-sized slices. These slices use a sine function to change the x-coordinates in every slice according to their distance from the equator. Using this transformation, the map actually becomes an equal-area projection, meaning that areas are preserved. What I find interesting is that the gut reaction to this projection is <i>no, there's no way that's equal-area</i>, because our eyes and brain try to interpolate the data in the blank spaces. But that interpolation need not be done, because all of the data is already in the slices.</p>
-  <p>Here is the code I used to make this map:</p>
-  <pre class="codeblock" style=""><span class="pln">    </span><span class="kwd">import</span><span class="pln"> numpy </span><span class="kwd">as</span><span class="pln"> np</span><br><span class="pln">
-    </span><span class="kwd">import</span><span class="pln"> scipy</span><span class="pun">.</span><span class="pln">misc </span><span class="kwd">as</span><span class="pln"> smp</span><br><span class="pln">
-    </span><span class="kwd">from</span><span class="pln"> PIL </span><span class="kwd">import</span><span class="pln"> </span><span class="typ">Image</span><br><span class="pln">
-    </span><span class="kwd">import</span><span class="pln"> requests</span><br><span class="pln">
-    </span><span class="kwd">import</span><span class="pln"> io</span><br><span class="pln">
-    </span><span class="kwd">import</span><span class="pln"> math</span><br><span class="pln">
-    </span><br><span class="pln">
-    r </span><span class="pun">=</span><span class="pln"> requests</span><span class="pun">.</span><span class="pln">get</span><span class="pun">(</span><span class="str">'https://upload.wikimedia.org/wikipedia/commons/e/ea/Equirectangular-projection.jpg'</span><span class="pun">)</span><br><span class="pln">
-    im </span><span class="pun">=</span><span class="pln"> </span><span class="typ">Image</span><span class="pun">.</span><span class="pln">open</span><span class="pun">(</span><span class="pln">io</span><span class="pun">.</span><span class="typ">BytesIO</span><span class="pun">(</span><span class="pln">r</span><span class="pun">.</span><span class="pln">content</span><span class="pun">))</span><br><span class="pln">
-    pix </span><span class="pun">=</span><span class="pln"> im</span><span class="pun">.</span><span class="pln">load</span><span class="pun">()</span><br><span class="pln">
-    map $remote_addr $ip_anonym2 </span><span class="pun">{</span><br><span class="pln">
-    data </span><span class="pun">=</span><span class="pln"> np</span><span class="pun">.</span><span class="pln">zeros</span><span class="pun">((</span><span class="lit">1025</span><span class="pun">,</span><span class="lit">2048</span><span class="pun">,</span><span class="lit">3</span><span class="pun">),</span><span class="pln"> dtype</span><span class="pun">=</span><span class="pln">np</span><span class="pun">.</span><span class="pln">uint8</span><span class="pun">)</span><br><span class="pln">
-    img </span><span class="pun">=</span><span class="pln"> smp</span><span class="pun">.</span><span class="pln">toimage</span><span class="pun">(</span><span class="pln"> data </span><span class="pun">)</span><span class="pln">       </span><span class="com"># Create a PIL image</span><br><span class="pln">
-    img</span><span class="pun">.</span><span class="pln">show</span><span class="pun">()</span><br><span class="pln">
-    </span><br><span class="pln">
-    n</span><span class="pun">=</span><span class="lit">100</span><span class="pln"> </span><span class="com">#the number of slices</span><br><span class="pln">
-    deg</span><span class="pun">=</span><span class="lit">2048</span><span class="pln"> </span><span class="com">#the width of the image</span><br><span class="pln">
-    ypix</span><span class="pun">=</span><span class="lit">512</span><span class="pln"> </span><span class="com">#the height of the image divided by 2</span><br><span class="pln">
-    </span><span class="kwd">for</span><span class="pln"> x </span><span class="kwd">in</span><span class="pln"> range </span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> deg</span><span class="pun">):</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;k</span><span class="pun">=</span><span class="pln">math</span><span class="pun">.</span><span class="pln">ceil</span><span class="pun">((</span><span class="pln">x</span><span class="pun">/</span><span class="pln">deg</span><span class="pun">)*</span><span class="pln">n</span><span class="pun">)</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">if</span><span class="pln"> k </span><span class="pun">==</span><span class="pln"> </span><span class="lit">0</span><span class="pun">:</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k</span><span class="pun">=</span><span class="lit">1</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">for</span><span class="pln"> y </span><span class="kwd">in</span><span class="pln"> range </span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pun">*</span><span class="pln">ypix</span><span class="pun">):</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ydeg</span><span class="pun">=(</span><span class="pln">y</span><span class="pun">-</span><span class="pln">ypix</span><span class="pun">)*</span><span class="lit">180</span><span class="pun">/(</span><span class="lit">2</span><span class="pun">*</span><span class="pln">ypix</span><span class="pun">)</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#interrupted sinusoidal</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x2 </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">k</span><span class="pun">-</span><span class="lit">1</span><span class="pun">)/</span><span class="pln">n</span><span class="pun">*</span><span class="pln">deg</span><span class="pun">+</span><span class="pln">deg</span><span class="pun">/(</span><span class="lit">2</span><span class="pun">*</span><span class="pln">n</span><span class="pun">)+((((</span><span class="pln">k</span><span class="pun">-</span><span class="lit">1</span><span class="pun">)/</span><span class="pln">n</span><span class="pun">)*</span><span class="pln">deg</span><span class="pun">+</span><span class="pln">deg</span><span class="pun">/(</span><span class="lit">2</span><span class="pun">*</span><span class="pln">n</span><span class="pun">)-</span><span class="pln">x</span><span class="pun">)*(-</span><span class="lit">1</span><span class="pun">*</span><span class="pln">abs</span><span class="pun">(</span><span class="pln">math</span><span class="pun">.</span><span class="pln">cos</span><span class="pun">(</span><span class="pln">math</span><span class="pun">.</span><span class="pln">radians</span><span class="pun">(</span><span class="pln">ydeg</span><span class="pun">)))))</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#interrupted triangles, if you want to try it out</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#x2 = (k-1)/n*deg+deg/(2*n)+((((k-1)/n)*deg+deg/(2*n)-x)*(-1*((abs(abs(ydeg)-90))/90)**1))</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y2 </span><span class="pun">=</span><span class="pln"> y</span><br><span class="pln">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data</span><span class="pun">[</span><span class="pln">math</span><span class="pun">.</span><span class="pln">ceil</span><span class="pun">(</span><span class="pln">y2</span><span class="pun">)-</span><span class="lit">1</span><span class="pun">,(</span><span class="pln">math</span><span class="pun">.</span><span class="pln">ceil</span><span class="pun">(</span><span class="pln">x2</span><span class="pun">))-</span><span class="lit">1</span><span class="pun">]=</span><span class="pln">pix</span><span class="pun">[</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">]</span><br><span class="pln">
-    img </span><span class="pun">=</span><span class="pln"> smp</span><span class="pun">.</span><span class="pln">toimage</span><span class="pun">(</span><span class="pln"> data </span><span class="pun">)</span><span class="pln">       </span><span class="com"># Create a PIL image</span><br><span class="pln">
-    img</span><span class="pun">.</span><span class="pln">show</span><span class="pun">()</span><span class="pln"> </span><br><span class="pln">
-  </span></pre>
-  <p>The code uses <a href="https://upload.wikimedia.org/wikipedia/commons/e/ea/Equirectangular-projection.jpg">this</a> equirectangular projection as an input. Equirectangular projections are convenient to work with because the coordinates of the pixels map proportionally to latitude and longitude.</p>
-  
 
-  <h2>Stylized openstreetmap data</h2>
-  <img src="neighborhoodtransport.svg" class="wider" alt="A sinusoidal projection with 100 slices">
-  <p>I made this map in <a href="https://www.qgis.org/en/site/">QGIS3</a>, using openstreetmap data I downloaded using <a href="https://www.openstreetmap.org">openstreetmap.org</a>'s export function. I used a set of rules to give the map the following properties:</p>
-  <ul>
-    <li>No roads shown</li>
-    <li>Fences and other barriers shown as dotted lines</li>
-    <li>Public transport routes shown in black</li>
-    <li>Public transport stops shown in blue</li>
-    <li>Hospitals shown in red and pink</li>
-  </ul>
-  <p>It is evident that all of the hospitals in the mapped area are easily accessible by public transport. All of the buildings are relatively close to a public transport stop, except for those in the huge elliptical void to the left of the center—a gated university.</p>
-  <p>QGIS uses an SQL-like format to set the style rules. By default, nothing is shown. I used these rules to choose the shown features:</p>
-  <p class="nospace">Map lines:</p>
-  <pre class="codeblock"style=""><span class="str">"barrier"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'fence'</span><span class="pln"> OR  </span><span class="str">"barrier"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'wall'</span><span class="pln"> OR </span><span class="str">"barrier"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'hedge'</span></pre>
-  <p class="nospace">Map multi-line strings:</p>
-  <pre class="codeblock" style=""><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"subway"%'</span><span class="pln"> OR </span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"railway"%'</span><br><span class="pln">
-    </span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"bus"%'</span><span class="pln">OR </span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"trolleybus"%'</span><span class="pln"> OR </span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"tram"%'</span></pre>
-  <p class="nospace">Map points:</p>
-  <pre class="codeblock" style=""><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"public_transport"=&gt;"stop_position"%'</span><span class="pln"> OR </span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"railway"=&gt;"subway_entrance"%'</span></pre>
-  <p class="nospace">Map multi-polygons:</p>
-  <pre class="codeblock" style=""><span class="str">"amenity"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'clinic'</span><span class="pln"> OR  </span><span class="str">"amenity"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'hospital'</span><br><span class="pln">
-    </span><span class="str">"building"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'hospital'</span><br><span class="pln">
-    </span><span class="str">"building"</span><span class="pln"> IS NOT NULL</span></pre>
-  <p>I then applied different colours and borders to the different rules above, creating the map seen above.</p>
-    
-  <!--#include virtual="/footer.html"-->
+<h2>Stylized openstreetmap data</h2>
+<img src="neighborhoodtransport.svg" class="wider" alt="A sinusoidal projection with 100 slices">
+<p>I made this map in <a href="https://www.qgis.org/en/site/">QGIS3</a>, using openstreetmap data I downloaded using <a href="https://www.openstreetmap.org">openstreetmap.org</a>'s export function. I used a set of rules to give the map the following properties:</p>
+<ul>
+<li>No roads shown</li>
+<li>Fences and other barriers shown as dotted lines</li>
+<li>Public transport routes shown in black</li>
+<li>Public transport stops shown in blue</li>
+<li>Hospitals shown in red and pink</li>
+</ul>
+<p>It is evident that all of the hospitals in the mapped area are easily accessible by public transport. All of the buildings are relatively close to a public transport stop, except for those in the huge elliptical void to the left of the center—a gated university.</p>
+<p>QGIS uses an SQL-like format to set the style rules. By default, nothing is shown. I used these rules to choose the shown features:</p>
+<p class="nospace">Map lines:</p>
+<pre class="codeblock"style=""><span class="str">"barrier"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'fence'</span><span class="pln"> OR  </span><span class="str">"barrier"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'wall'</span><span class="pln"> OR </span><span class="str">"barrier"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'hedge'</span></pre>
+<p class="nospace">Map multi-line strings:</p>
+<pre class="codeblock" style=""><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"subway"%'</span><span class="pln"> OR </span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"railway"%'</span><br><span class="pln">
+</span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"bus"%'</span><span class="pln">OR </span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"trolleybus"%'</span><span class="pln"> OR </span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"route"=&gt;"tram"%'</span></pre>
+<p class="nospace">Map points:</p>
+<pre class="codeblock" style=""><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"public_transport"=&gt;"stop_position"%'</span><span class="pln"> OR </span><span class="str">"other_tags"</span><span class="pln"> like </span><span class="str">'%"railway"=&gt;"subway_entrance"%'</span></pre>
+<p class="nospace">Map multi-polygons:</p>
+<pre class="codeblock" style=""><span class="str">"amenity"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'clinic'</span><span class="pln"> OR  </span><span class="str">"amenity"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'hospital'</span><br><span class="pln">
+</span><span class="str">"building"</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'hospital'</span><br><span class="pln">
+</span><span class="str">"building"</span><span class="pln"> IS NOT NULL</span></pre>
+<p>I then applied different colours and borders to the different rules above, creating the map seen above.</p>
 
-</body>
-</html>
+<!--#include virtual="/footer.html"-->
