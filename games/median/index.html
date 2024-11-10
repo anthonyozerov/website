@@ -1,9 +1,14 @@
 <!--#set var="title" value="Median game"-->
 <!--#include virtual="/head.html"-->
+<style>
+p {
+    margin-bottom: 0.4em;
+}
+</style>
 <!--#include virtual="/header.html"-->
 
 <h2>Rules</h2>
-<p>“Median game” is a card game where, in each round, players try to place the card which is the median (hence the name). The objective is to win the most rounds. The game can be played with 3 or more players, though is best played with 3 or 4 players.</p>
+<p>“Median game” is a card game or card game family where, in each round, players try to place the card which is the median (hence the name). The objective is to win the most rounds. The game can be played with 2 or more players, though is best played with 3 players.</p>
 <p>The game is played with a standard deck of cards. It could in principle be played with a larger or smaller deck. Aces are high. Each player is dealt some number of cards. 5 is a good choice. Increasing the number of cards leads to less round-by-round randomness/luck, and decreasing it leads to more randomness. Players can see their own cards and can't see each other's cards, but can show them if they would like.</p>
 <p>This is the gameplay for an odd number of players:</p>
 <ul>
@@ -20,6 +25,7 @@
 <li>After all rounds have been played, the player with the most rounds won is the winner. The number of rounds won by players can be checked by looking at how many face-down cards each player has in front of themselves</li>
 </ul>
 <p>For an even number of players, the rules are the same, except the player going first in each round announces before the round starts whether the winner will be the “high or low median”. For example, if there are 4 players, the player going first will announce whether the winner will be the player who places the second-highest or second-lowest card.</p>
+<p>For 2 players, the game surprisingly still works, and the “high or low median” simply becomes the highest or lowest card of the two. This gives the player going first an extreme advantage in each hand (for instance, a player with an Ace will easily win a hand by going first and calling high). So you can choose to just alternate who goes first, or have the previous hand's loser go first.</p>
 <h2>Strategy</h2>
 <p>It may seem that the outcome of the game is entirely random. Consider the following points:</p>
 <ul>
@@ -30,5 +36,6 @@
 <p>The game ends up being about trust and deception.</p>
 <h2>About</h2>
 <p>Median game was created in late 2023 by me and my friends North and Katie. We were inspired by the completely pointless game <a href="https://en.wikipedia.org/wiki/War_(card_game)">“War”</a> and our desperation for a simple and fun three-player card game.</p>
+<p>Credit for the realization that the even-player variant works for two players when alternating who goes first is due to my friend João Vitor.</p>
 
 <!--#include virtual="/footer.html"-->
