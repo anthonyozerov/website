@@ -1,5 +1,3 @@
-# Trust in Media
-
 2024-11-09
 
 According to whatever metrics, the public's trust in media pretty low in the US. See this figure [from Gallup](https://news.gallup.com/poll/651977/americans-trust-media-remains-trend-low.aspx):
@@ -128,7 +126,7 @@ I went to high school at [an international school in Russia](https://en.wikipedi
 
 *Russia’s first visible action came later Thursday, when Russian authorities ordered the closure of the Anglo-American School of Moscow, a US official briefed on the matter said. The order from the Russian government closes the school, which serves children of US, British and Canadian embassy personnel, to US and foreign nationals.*
 
-This was, in fact, my school. The article quickly circulated around the schools community of expats, diplomats, Russians, and us, their kids. We were thrown into uncertainty about our academic futures. Where would we finish the school year? Where would we go? This promised to tear apart the whole community.
+This was, in fact, my school. The article quickly circulated around the school's community of expats, diplomats, Russians, and us, their kids. We were thrown into uncertainty about our academic futures. Where would we finish the school year? Where would we go? This promised to tear apart the whole community.
 
 Notably, the article lacked qualifications like "CNN was unable to independently verify this information."
 
@@ -149,7 +147,7 @@ To summarize:
 3. Politico took it at face value, changed "ordered" to "announced," and only qualified the information as coming from a CNN report.
 4. Both articles remain unchanged, with no editor's note, even though the school did not close.
 
-I think we can all agree that steps 3 and 4 are, simply said, simple and avoidable journalistic mistakes. As someone who lived through the stress, they were enough to decrease my trust in the media's ability to report things carefully and self-correct when proven wrong. But what happened in 1 and 2? Why was this reported even though our school didn't close? Here are some options:
+I think we can all agree that steps 3 and 4 are, simply said, avoidable journalistic mistakes. As someone who lived through the stress, they were enough to decrease my trust in the media's ability to report things carefully and self-correct when proven wrong. But what happened in 1 and 2? Why was this reported even though our school didn't close? Here are some options:
 
 - CNN made a mistake, misinterpreting what the US official said.
 - The official made a mistake, misinterpreting some sort of information.
@@ -167,13 +165,13 @@ Suppose that CNN correctly and honestly interpreted the information given to the
 
 In either case, if we examine the motive for leaking true information or lying, I think the simplest answer is to make Russia look bad for closing (or planning to close) a school. "Wow, the US expelled diplomats, and Russia closed a school in response? Who wants to hurt kids?" This would also perhaps apply diplomatic pressure and prevent Russia from escalating. 
 
-So the outcome of the leak/lie was support for pro-US and anti-Russia policy. CNN and Politico effectively became tools of the government, its mouthpieces in a diplomatic conflict with Russia.
+So the outcome of the leak/lie was support for pro-US policy. CNN and Politico effectively became tools of the government, its mouthpieces in a diplomatic conflict with Russia.
 
 Is this a desirable situation? I would argue not. We should let the US promote its interests through explicit means like press releases, speeches, and so on. The free press should not just be an avenue for what our leaders want us to think. If you would have disagreed with this under the Obama or Biden administrations, maybe you'll agree now. Refer to Herman and Chomsky's [Manufacturing Consent](https://en.wikipedia.org/wiki/Manufacturing_Consent) for details on why the media naturally become the voice of powerful institutions.
 
-So whenever you see an article on foreign policy referring to an anonymous government source, I invite you to think about the motive. What does the source say? If the information is important and embarrassing to the US government, it's probably just a regular leak of conscience. But sometimes the information will support a pro-US or pro-government perspective. Treat such information with care. Note that this can also apply [when the sources are not anonymous](https://en.wikipedia.org/wiki/Public_statement_on_the_Hunter_Biden_emails).
+So whenever you see an article on foreign policy referring to an anonymous government source, I invite you to think about the motive. What does the source say? If the information is important and embarrassing to the government, it's probably just a regular leak of conscience. But sometimes the information will support a pro-government perspective. Treat such information with care. Note that this can also apply [when the sources are not anonymous](https://en.wikipedia.org/wiki/Public_statement_on_the_Hunter_Biden_emails).
 
-## <a  name="visual"></a> Messaging in visual media
+## <a name="visual"></a> Messaging in visual media
 
 I am reminded of another media incident that was quite close to home. In March 2020, I was in my first year at Columbia when the pandemic arrived, classes were cancelled, and we were told to pack our bags. Here is a more specific timeline:
 
