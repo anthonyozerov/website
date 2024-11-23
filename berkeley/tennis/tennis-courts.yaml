@@ -1,0 +1,74 @@
+rose-garden:
+  name: 'Berkeley Rose Garden'
+  opens: '6:00'
+  closes: '22:00'
+  res_opens: '7:00'
+  res_closes: '22:00'
+  courts: ['Tennis Court #1', 'Tennis Court #2']
+  unreservable: ['Tennis Court #3']
+  lights: False
+  wall: True
+cedar-rose:
+  name: 'Cedar Rose Park'
+  opens: '6:00'
+  closes: '22:00'
+  res_opens: '7:00'
+  res_closes: '22:00'
+  courts: ['Tennis Court #1', 'Tennis Court #2']
+  lights: False
+  wall: False
+grove:
+  name: 'Grove Park'
+  opens: '6:00'
+  closes: '22:00'
+  res_opens: '7:00'
+  res_closes: '22:00'
+  courts: ['Tennis Court #1', 'Tennis Court #2']
+  unreservable: ['Tennis Court #3']
+  lights: True
+  wall: False
+james-kenney:
+  name: 'James Kenney Park'
+  opens: '6:00'
+  closes: '22:00'
+  res_opens: '7:00'
+  res_closes: '22:00'
+  courts: ['Tennis Court #1', 'Tennis Court #2']
+  lights: True
+  wall: True
+live-oak:
+  name: 'Live Oak Park'
+  opens: '6:00'
+  closes: '22:00'
+  res_opens: '7:00'
+  res_closes: '22:00'
+  courts: ['Tennis Court #1', 'Tennis Court #2']
+  lights: True
+  wall: False
+san-pablo:
+  name: 'San Pablo Park'
+  opens: '6:00'
+  closes: '22:00'
+  res_opens: '7:00'
+  res_closes: '22:00'
+  courts: ['Tennis Court #1', 'Tennis Court #2']
+  lights: True
+  wall: True
+strawberry-creek:
+  name: 'Strawberry Creek Park'
+  opens: '6:00'
+  closes: '22:00'
+  res_opens: '7:00'
+  res_closes: '22:00'
+  courts: ['Tennis Court']
+  lights: True
+  wall: False
+willard:
+  name: 'Willard Park'
+  opens: '6:00'
+  closes: '22:00'
+  res_opens: '7:00'
+  res_closes: '22:00'
+  courts: ['Tennis Court #1', 'Tennis Court #2']
+  lights: True
+  wall: True
