@@ -1,3 +1,7 @@
+import pandas as pd
+import numpy as np
+import sys
+
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium import webdriver
 from time import sleep
@@ -6,6 +10,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from yaml import safe_load
 from datetime import datetime
+from astral import LocationInfo
+from astral.sun import sun
+from zoneinfo import ZoneInfo
 
 options = FirefoxOptions()
 options.add_argument("--headless")
@@ -15,6 +22,8 @@ options.add_argument("--disable-dev-shm-usage")
 geckodriver_path = "/snap/bin/geckodriver"
 driver_service = webdriver.firefox.service.Service(executable_path=geckodriver_path)
 driver = webdriver.Firefox(options=options, service=driver_service)
+
+config_path = sys.argv[1]
 
 
 def parse_slots(slots):
@@ -104,8 +113,6 @@ def scrape(location_dict):
         begintimes, endtimes = parse_slots(slots)
         begintimess[court] = begintimes
         endtimess[court] = endtimes
-    import pandas as pd
-    import numpy as np
 
     # first = min([min(begintimes) for begintimes in begintimess.values() if len(begintimes) > 0])
     # last = max([max(endtimes) for endtimes in endtimess.values() if len(endtimes) > 0 ]) - pd.Timedelta('1h')
@@ -131,7 +138,7 @@ def scrape(location_dict):
     return table
 
 
-all_courts = safe_load(open("tennis-courts.yaml"))
+all_courts = safe_load(open(config_path))
 
 
 for k in all_courts:
@@ -151,16 +158,12 @@ def color(val):
 
 
 # get sunrise and sunset times
-from astral import LocationInfo
-from astral.sun import sun
-from datetime import datetime
 
 city = LocationInfo("Berkeley", "USA", "America/Los_Angeles", 37.8716, -122.2727)
 s = sun(city.observer, date=datetime.now().date())
 sunrise = s["sunrise"]
 sunset = s["sunset"]
 # convert to PT
-from zoneinfo import ZoneInfo
 
 sunrise = sunrise.astimezone(ZoneInfo(city.timezone))
 sunset = sunset.astimezone(ZoneInfo(city.timezone))

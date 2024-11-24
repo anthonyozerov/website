@@ -1,0 +1,11 @@
+name: scrape
+dependencies:
+  - python
+  - pip
+  - pip:
+    - selenium
+    - pyyaml
+    - pandas
+    - jinja2
+    - numpy
+    - astral

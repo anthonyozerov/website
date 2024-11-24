@@ -1,0 +1,10 @@
+rose-garden:
+  name: 'Berkeley Rose Garden'
+  opens: '6:00'
+  closes: '22:00'
+  res_opens: '7:00'
+  res_closes: '22:00'
+  courts: ['Tennis Court #1']
+  unreservable: ['Tennis Court #3']
+  lights: False
+  wall: True
