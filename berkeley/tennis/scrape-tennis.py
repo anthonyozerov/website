@@ -57,6 +57,8 @@ def parse_slots(slots):
 
 def scrape(location_dict):
     name = location_dict["name"]
+    with open("scraper.log", "a") as f:
+        f.write(f"{name}\n")
     opens = location_dict["opens"]
     res_opens = location_dict["res_opens"]
     res_closes = location_dict["res_closes"]
@@ -85,25 +87,25 @@ def scrape(location_dict):
         elm4 = "reservation-slots-available"
 
         print("waiting for elm1")
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, elm1))
         )
         driver.find_element(By.XPATH, elm1).click()
 
         print("waiting for elm2")
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, elm2))
         )
         driver.find_element(By.XPATH, elm2).click()
 
         print("waiting for elm3")
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, elm3))
         )
         driver.find_element(By.XPATH, elm3).click()
 
         print("waiting for elm4")
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 20).until(
             EC.visibility_of_element_located((By.CLASS_NAME, elm4))
         )
         # sleep(1)
