@@ -1,0 +1,15 @@
+<!--#set var="title" value="Berkeley tennis court availability"-->
+<!--#include virtual="/head.html"-->
+<!--#include virtual="/header.html"-->
+<p>This page shows the availability of tennis courts in Berkeley, CA today. It is designed to help find a non-reserved court to go play at for free. My server tries to update it every hour.</p>
+
+<p>The data are pulled from court reservation information on the city's <a href="https://ca-berkeley.civicrec.com/CA/berkeley-ca/catalog/index/50900cc08e08223966673cbdc0c1b7e3">recreation website</a> with the following rules:</p>
+<ul>
+    <li>Any available reservation times are marked as available.</li>
+    <li>Other times within the reservation period of the court are marked as unavailable, as it is presumably reserved. (note: I don't know the reservation period of most of the courts but have put it as 07:00-22:00 based on the courts I know of)</li>
+    <li>Any other times are marked as available</li>
+</ul>
+The 1hr blocks I show extend 06:00-22:00 as that is when the parks are officially open.
+<hr>
+<!--#include virtual="data.html"-->
+<!--#include virtual="/footer.html"-->
