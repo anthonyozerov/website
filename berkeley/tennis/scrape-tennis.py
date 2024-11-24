@@ -70,7 +70,9 @@ def scrape(location_dict):
     endtimess = {}
     slotshtml = []
     for court in courts:
-        # print(court)
+        # log court to scraper.log
+        with open("scraper.log", "a") as f:
+            f.write(f"{court}\n")
 
         driver.get(
             "https://ca-berkeley.civicrec.com/CA/berkeley-ca/catalog/index/3f7512b8da9e19d57dfa847ce86b85eb"
