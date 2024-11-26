@@ -5,6 +5,7 @@ rose-garden:
   res_opens: '7:00'
   res_closes: '18:00'
   courts: ['Tennis Court #1', 'Tennis Court #2']
+  courts_id: ['77101', '77103']
   unreservable: ['Tennis Court #3']
   lights: False
   wall: True
@@ -15,6 +16,7 @@ cedar-rose:
   res_opens: '7:00'
   res_closes: '18:00'
   courts: ['Tennis Court #1', 'Tennis Court #2']
+  courts_id: ['68499', '77102']
   lights: False
   wall: False
 grove:
@@ -24,6 +26,7 @@ grove:
   res_opens: '7:00'
   res_closes: '22:00'
   courts: ['Tennis Court #1', 'Tennis Court #2']
+  courts_id: ['68523', '77093']
   unreservable: ['Tennis Court #3']
   lights: True
   wall: False
@@ -34,6 +37,7 @@ james-kenney:
   res_opens: '7:00'
   res_closes: '22:00'
   courts: ['Tennis Court #1', 'Tennis Court #2']
+  courts_id: ['68555', '77106']
   lights: True
   wall: True
 live-oak:
@@ -43,6 +47,7 @@ live-oak:
   res_opens: '7:00'
   res_closes: '22:00'
   courts: ['Tennis Court #1', 'Tennis Court #2']
+  courts_id: ['68491', '77107']
   lights: True
   wall: False
 san-pablo:
@@ -52,6 +57,7 @@ san-pablo:
   res_opens: '7:00'
   res_closes: '22:00'
   courts: ['Tennis Court #1', 'Tennis Court #2']
+  courts_id: ['68573', '77108']
   lights: True
   wall: True
 strawberry-creek:
@@ -61,6 +67,7 @@ strawberry-creek:
   res_opens: '7:00'
   res_closes: '22:00'
   courts: ['Tennis Court']
+  courts_id: ['68581']
   lights: True
   wall: False
 willard:
@@ -70,5 +77,6 @@ willard:
   res_opens: '7:00'
   res_closes: '22:00'
   courts: ['Tennis Court #1', 'Tennis Court #2']
+  courts_id: ['68579', '77113']
   lights: True
   wall: True
