@@ -3,7 +3,6 @@ dependencies:
   - python
   - pip
   - pip:
-    - selenium
     - pyyaml
     - pandas
     - jinja2

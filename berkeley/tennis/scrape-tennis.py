@@ -24,6 +24,7 @@ def parse_slots(slots):
 
 
 def scrape(location_dict, date):
+
     name = location_dict["name"]
     with open("scraper.log", "a") as f:
         f.write(f"{name}\n")
@@ -70,7 +71,7 @@ def scrape(location_dict, date):
     for court in courts:
         table.loc[first_res:last_res, court] = "Reserved"
         for begin, end in zip(begintimes[court], endtimes[court]):
-            table.loc[begin:end, court] = "Available"
+            table.loc[begin:(end-pd.Timedelta("1h")), court] = "Available"
     # make index just hour instead of datetime
     table.index = table.index.strftime("%H:%M")
     return table
@@ -101,8 +102,6 @@ def color(val):
 if __name__ == "__main__":
     config_path = sys.argv[1]
     date = datetime.now().date()
-    if datetime.now().hour >= 21:
-        date += timedelta(days=1)
 
     all_courts = safe_load(open(config_path))
 
