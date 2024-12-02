@@ -41,7 +41,6 @@ This page last updated 5000BCE (radiocarbon date).
 This page last updated before the pyramids.
 This page last updated before Thwaites Ice Shelf collapsed.
 This page last updated in the Chalcolithic.
-This page last updated 昨天。
 This page last updated during 三国时期。
 This page last updated 我不知道什么时候。
 This page last updates yesterday (O.S.)
@@ -49,3 +48,6 @@ This page last updated in the Early Dynastic Period.
 This page last updated in the Reiwa era.
 This page last updated on an ISO-8601-formatted date.
 This page last updated when I had time.
+This page will never be updated.
+This page last updated in 1984.
+Эта страница когда-то была обновлена.
