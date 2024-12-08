@@ -19,6 +19,14 @@ a{
   text-decoration: none;
 }
 
+a:link {
+  color:#07a
+}
+
+a:visited {
+ color:#941352
+}
+
 hr{
   width:100%;
 }
@@ -121,12 +129,6 @@ object.footer{
   font-size:20px;
 }
 
-a {
- color:#07a
-}
-a:visited {
- color:#941352
-}
 
 html{
   overflow-y: scroll;
