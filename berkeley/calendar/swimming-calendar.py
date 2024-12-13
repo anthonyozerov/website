@@ -86,7 +86,7 @@ for event_day in soup.find_all('div', class_='lw_events_day'):
         calendar.events.add(event)
 
 # Save the calendar to an ICS file
-with open('swimming_schedule.ics', 'w') as ics_file:
+with open('lapswim.ics', 'w') as ics_file:
     ics_file.writelines(calendar)
 
 print("ICS file created successfully!")
