@@ -87,7 +87,7 @@ for event_day in soup.find_all('div', class_='lw_events_day'):
 
         # Create an iCalendar event
         event = Event(dtstamp=start_time)
-        event.name = event_title
+        event.summary = event_title
         event.begin = start_time
         event.end = end_time
         print(event)
