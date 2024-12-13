@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 from ics import Calendar, Event
 from datetime import datetime
+from dateutil.tz import gettz
+import pytz
 import requests
 
 html_content = requests.get('https://events.berkeley.edu/live/widget/15/tag/Open Rec Swimming').text
@@ -50,6 +52,7 @@ def parse_time(event_day, time_str):
 
     return start_datetime, end_datetime
 
+cal_events = []
 # Extract events from HTML
 for event_day in soup.find_all('div', class_='lw_events_day'):
     day_header = event_day.find('h4', class_='lw_events_header_date').text.strip()
@@ -73,24 +76,41 @@ for event_day in soup.find_all('div', class_='lw_events_day'):
 
         # Parse time and location
         start_time, end_time = parse_time(event_date, time_text)
-        # make sure datetimes are Pacific
-        start_time = start_time.replace(tzinfo='America/Los_Angeles')
-        end_time = end_time.replace(tzinfo='America/Los_Angeles')
+        # make sure datetimes are Pacific WITHOUT shifting the time
+        pt = gettz('America/Los_Angeles')
+        start_time = start_time.replace(tzinfo=pt)
+        end_time = end_time.replace(tzinfo=pt)
+        print(pt)
+        print(start_time, end_time)
 
         event_location = location_text
 
         # Create an iCalendar event
-        event = Event()
+        event = Event(dtstamp=start_time)
         event.name = event_title
         event.begin = start_time
         event.end = end_time
+        print(event)
         event.location = event_location
 
         # Add event to calendar
-        calendar.events.add(event)
+        cal_events.append(event)
 
 # Save the calendar to an ICS file
+
+calendar = Calendar(events=cal_events)
+
+cal_string = str(calendar.serialize())
 with open('lapswim.ics', 'w') as ics_file:
-    ics_file.writelines(calendar)
+    ics_file.write(cal_string)
+
+exit()
+# remove "Z" from all datetimes in file
+with open('lapswim.ics', 'r') as ics_file:
+    ics_lines = ics_file.readlines()
+    ics_lines = [line.replace('Z', '') for line in ics_lines]
+
+with open('lapswim.ics', 'w') as ics_file:
+    ics_file.writelines(ics_lines)
 
 print("ICS file created successfully!")
