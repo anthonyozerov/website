@@ -73,6 +73,10 @@ for event_day in soup.find_all('div', class_='lw_events_day'):
 
         # Parse time and location
         start_time, end_time = parse_time(event_date, time_text)
+        # make sure datetimes are Pacific
+        start_time = start_time.replace(tzinfo='America/Los_Angeles')
+        end_time = end_time.replace(tzinfo='America/Los_Angeles')
+
         event_location = location_text
 
         # Create an iCalendar event
