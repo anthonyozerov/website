@@ -1,7 +1,7 @@
-<!--#set var="title" value="Berkeley things"-->
+<!--#set var="title" value="Berkeley calendars"-->
 <!--#include virtual="/head.html"-->
 <!--#include virtual="/header.html"-->
-<p>Below are links to subscribable calendars for various open recreational sports offered at UC Berkeley. They update every hour. Possible use case: add the link to your google calendar, and see on your calendar when you can play the sports.</p>
+<p>Below are links to subscribable calendars for various open recreational sports offered at UC Berkeley. Possible use case: add the link to your google calendar, and see on your calendar when you can play the sports.</p>
 
 <a href="lapswim.ics">Lap swim</a>
 <a href="pickleball.ics">Pickleball</a>
@@ -9,4 +9,8 @@
 <a href="basketball.ics">Basketball</a>
 <a href="volleyball.ics">Volleyball</a>
 <a href="climbing.ics">Climbing</a>
+
+<h3>Technical details</h3>
+<p>These links point to iCal files (.ics) which are updated every hour. They reflect data which is on UCB Recreation and Wellbeing pages (e.g. the one for <a href="https://recwell.berkeley.edu/schedules-reservations/lap-swim/">lap swim</a>). All of these pages ultimately  draw data from <a href="https://events.berkeley.edu/live/widget/15">this internal page</a>, which is what I scrape to update the .ics files. The code is available in this website's <a href="https://github.com/anthonyozerov/website/tree/main/berkeley/calendar">repository</a>.</p>
+
 <!--#include virtual="/footer.html"-->
