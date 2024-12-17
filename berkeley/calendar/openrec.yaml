@@ -3,6 +3,7 @@ lapswim:
   url: 'https://events.berkeley.edu/live/widget/15/tag/Open Rec Swimming'
   exclude:
     - 'no open rec swim'
+    - 'closed'
 pickleball:
   name: 'Pickleball'
   url: 'https://events.berkeley.edu/live/widget/15/tag/Open Rec Pickleball'
