@@ -1,0 +1,24 @@
+lapswim:
+  name: 'Lap Swim'
+  url: 'https://events.berkeley.edu/live/widget/15/tag/Open Rec Swimming'
+  exclude:
+    - 'no open rec swim'
+pickleball:
+  name: 'Pickleball'
+  url: 'https://events.berkeley.edu/live/widget/15/tag/Open Rec Pickleball'
+  exclude:
+    - 'closed'
+badminton:
+  name: 'Badminton'
+  url: 'https://events.berkeley.edu/live/widget/15/tag/Open Rec Badminton'
+basketball:
+  name: 'Basketball'
+  url: 'https://events.berkeley.edu/live/widget/15/tag/Open Rec Basketball'
+volleyball:
+  name: 'Volleyball'
+  url: 'https://events.berkeley.edu/live/widget/15/tag/Open Rec Volleyball'
+climbing:
+  name: 'Climbing'
+  url: 'https://events.berkeley.edu/live/widget/15/tag/Open Rec Climbing'
+  exclude:
+    - 'closed'
