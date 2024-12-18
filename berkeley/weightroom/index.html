@@ -2,7 +2,9 @@
 <!--#include virtual="/head.html"-->
 <!--#include virtual="/header.html"-->
 
-<p>Last updated: <!--#include virtual="updated.txt"--></p>
+<p>This page shows the current number of people in the RSF weight room, and some historical data. It may help you choose an optimal time to hit the gym!</p>
+
+<p>Last updated: <!--#include virtual="updated.txt"--> (Should update every 10 minutes).</p>
 
 <img src="today.png" style="width:100%">
 
@@ -13,5 +15,11 @@
 <img src="heatmap_60.png" style="width:100%">
 <img src="heatmap_120.png" style="width:100%">
 <img src="heatmap_365.png" style="width:100%">
+
+<h2>Technical details</h2>
+<p>The RSF weight room uses sensors from some tech company which specializes in tracking space usage. I believe the weight room's sensors are located on the doorways, and count the number of people entering and exiting. So the number of people "in the room" is just total people entered minus total people exited. In theory the error in the total will increase throughout the day as the sensors mistakenly miscount entries/exits, so I think the number resets to zero every night at 1 or 2. <p>
+<p>Berkeley has <a href="https://recwell.berkeley.edu/facilities/recreational-sports-facility-rsf/rsf-weight-room-crowd-meter/">a webpage</a> which gives the real-time number of people (actually, the “utilization,” which is the number of people divided by an arbitrary cap of 140). If you dig into that page, you can see it makes calls to a publicly available API for the sensors. The API also has historical data, which is what this page draws on.</p>
+<p>I started looking into this API on my own, then saw that a student had already made a <a href="https://rsf.michaellisano.com/">similar dashboard</a>. The visualizations there inspired some of the ones here, but I thought I could do better :)
+<p>The code for this page is in this website's <a href="https://github.com/anthonyozerov/website/tree/main/berkeley/weightroom">git repo</a>. The historical data is available in this csv file: <a href="data.txt">data.txt</a>. The first column is the start of the 10min time interval, the second column is the count of users, and the third and fourth columns are the minimum and maximum users in that interval.</p>
 
 <!--#include virtual="/footer.html"-->
