@@ -13,16 +13,13 @@ base_url = "https://api.density.io/v2/spaces/spc_863128347956216317"
 
 interval = "10m"
 
-start = "2024-12-11T00:00:00"
-end = "2024-12-11T23:59:59"
-
 # open file containing times so that we don't repeat them
 with open("times.txt", "r") as f:
     times = f.read().splitlines()
 with open("data.txt", "r") as f:
     all_data = f.read().splitlines()
 
-for i in range(1500, -1, -1):
+for i in range(1500, -2, -1):
     today = datetime.datetime.now().date()
     day = today - datetime.timedelta(days=i)
     start = day.strftime("%Y-%m-%dT00:00:00")
