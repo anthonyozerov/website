@@ -26,8 +26,11 @@ for name, sport in sports.items():
         day_header = event_day.find('h4', class_='lw_events_header_date').text.strip()
         print(day_header)
 
-        # Convert day header into date format (assuming event days are in December 2024)
-        event_date = datetime.strptime(day_header, '%A, %b. %d')# .replace(year=datetime.now().year)
+        # Convert day header into date format
+        try:
+            event_date = datetime.strptime(day_header, '%A, %b. %d')
+        except ValueError:
+            event_date = datetime.strptime(day_header, '%A, %B %d')
         # set the year to the closest year now for the date, dealing with the issue of december and january
         event_date = assign_year(event_date)
 

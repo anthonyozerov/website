@@ -20,7 +20,12 @@ for row in rows:
         day = cols[0].text.strip()
         time = cols[1].text.strip()
 
-        event_date = datetime.strptime(day, '%A, %b. %d')
+        # Convert day header into date format
+        try:
+            event_date = datetime.strptime(day, '%A, %b. %d')
+        except ValueError:
+            event_date = datetime.strptime(day, '%A, %B %d')
+
         event_date = assign_year(event_date)
 
         start_time, end_time = parse_time(event_date, time)
