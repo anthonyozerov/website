@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from utils import assign_year, parse_time, create_event, save_cal
+from utils import parse_time, create_event, save_cal, parse_date
 from datetime import datetime
 
 url = 'https://events.berkeley.edu/live/widget/33'
@@ -20,13 +20,7 @@ for row in rows:
         day = cols[0].text.strip()
         time = cols[1].text.strip()
 
-        # Convert day header into date format
-        try:
-            event_date = datetime.strptime(day, '%A, %b. %d')
-        except ValueError:
-            event_date = datetime.strptime(day, '%A, %B %d')
-
-        event_date = assign_year(event_date)
+        event_date = parse_date(day)
 
         start_time, end_time = parse_time(event_date, time)
         event = create_event('RSF Open', start_time, end_time, 'RSF', 'America/Los_Angeles')

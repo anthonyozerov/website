@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import requests
 from yaml import safe_load
-from utils import assign_year, parse_time, create_event, save_cal
+from utils import parse_time, create_event, save_cal, parse_date
 
 # Load configuration from YAML file
 with open('openrec.yaml', 'r') as config_file:
@@ -26,15 +26,7 @@ for name, sport in sports.items():
         day_header = event_day.find('h4', class_='lw_events_header_date').text.strip()
         print(day_header)
 
-        # Convert day header into date format
-        try:
-            event_date = datetime.strptime(day_header, '%A, %b. %d')
-        except ValueError:
-            event_date = datetime.strptime(day_header, '%A, %B %d')
-        # set the year to the closest year now for the date, dealing with the issue of december and january
-        event_date = assign_year(event_date)
-
-        print(event_date)
+        event_date = parse_date(day_header)
 
         # Process each event within the day
         events = event_day.find_all('div', class_='event row')

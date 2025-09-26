@@ -32,6 +32,24 @@ def parse_time(event_day, time_str):
 
     return start_datetime, end_datetime
 
+def parse_date(date_str):
+    # Convert day header into date format
+
+    date_str = date_str.lower()
+    month_map = {"sept": "sep"}
+    for k, v in month_map.items():
+        date_str = date_str.replace(k, v)
+
+    try:
+        event_date = datetime.strptime(date_str, '%A, %b. %d')
+    except ValueError:
+        event_date = datetime.strptime(date_str, '%A, %B %d')
+
+    # set the year to the closest year now for the date, dealing with the issue of december and january
+    event_date = assign_year(event_date)
+
+    return event_date
+
 def convert_to_24hr(ts, pm):
     # print(ts, pm)
     if ts == 'noon':
