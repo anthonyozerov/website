@@ -2,55 +2,62 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import requests
 from yaml import safe_load
-from utils import parse_time, create_event, save_cal, parse_date
+from utils import parse_time_recwell, create_event, save_cal
 
-# Load configuration from YAML file
 with open('openrec.yaml', 'r') as config_file:
     sports = safe_load(config_file)
 
-print(sports.keys())
+print(list(sports.keys()))
 
 for name, sport in sports.items():
     print(name)
-    html_content = requests.get(sport['url']).text
+    try:
+        html_content = requests.get(sport['url']).text
+        soup = BeautifulSoup(html_content, 'html.parser')
 
-    # Parse the HTML content using BeautifulSoup
-    soup = BeautifulSoup(html_content, 'html.parser')
+        table = soup.find('table', class_='table')
+        if not table:
+            print(f'  No table found for {name}')
+            continue
 
+        cal_events = []
+        for row in table.find_all('tr'):
+            cells = row.find_all('td')
+            if len(cells) < 4:
+                continue
 
-    # Function to parse time strings into 24-hour format time tuples
+            date_str = cells[0].get_text(strip=True)
+            try:
+                event_date = datetime.strptime(date_str, '%m/%d/%Y')
+            except ValueError:
+                print(f'  Could not parse date: {date_str}')
+                continue
 
-    cal_events = []
-    # Extract events from HTML
-    for event_day in soup.find_all('div', class_='lw_events_day'):
-        day_header = event_day.find('h4', class_='lw_events_header_date').text.strip()
-        print(day_header)
+            times = [p.get_text(strip=True) for p in cells[2].find_all('p')]
+            locations = [p.get_text(strip=True) for p in cells[3].find_all('p')]
 
-        event_date = parse_date(day_header)
+            if not times:
+                times = [cells[2].get_text(strip=True)]
+            if not locations:
+                locations = [cells[3].get_text(strip=True)]
 
-        # Process each event within the day
-        events = event_day.find_all('div', class_='event row')
-        for event in events:
-            time_text = event.find('div', class_='time column').text.strip()
-            location_text = event.find('div', class_='location column').text.strip()
-            event_title = event.find('div', class_='event-title column').text.strip()
+            for i, time_str in enumerate(times):
+                location = locations[i] if i < len(locations) else ''
 
-            # if the title contains anything in sport['exclude'], skip it
-            if 'exclude' in sport:
-                if any([excl in event_title.lower() for excl in sport['exclude']]):
+                if 'exclude' in sport:
+                    combined = (time_str + ' ' + location).lower()
+                    if any(excl in combined for excl in sport['exclude']):
+                        continue
+
+                result = parse_time_recwell(event_date, time_str)
+                if result is None:
+                    print(f'  Skipping: {time_str}')
                     continue
 
-            event_title = event_title.replace('Event: ', '')
-            location_text = location_text.replace('Location: ', '')
+                start_time, end_time = result
+                cal_events.append(create_event(sport['name'], start_time, end_time, location, 'America/Los_Angeles'))
 
-            print(time_text)
-
-            # Parse time and location
-            start_time, end_time = parse_time(event_date, time_text)
-            # make calendar event
-            event = create_event(event_title, start_time, end_time, location_text, 'America/Los_Angeles')
-
-            # Add event to calendar
-            cal_events.append(event)
-
-    save_cal(cal_events, name, sport['name'])
+        print(f'  {len(cal_events)} events')
+        save_cal(cal_events, name, sport['name'])
+    except Exception as e:
+        print(f'  ERROR: {e}')

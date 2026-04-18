@@ -66,6 +66,22 @@ def convert_to_24hr(ts, pm):
     # print(hour, minute)
     return hour, minute
 
+def parse_time_recwell(event_day, time_str):
+    """Parse a time string like '7:00am – 9:00am' into start/end datetimes. Returns None if not parseable."""
+    # Some pages use en-dash, others use plain hyphen
+    sep = '\u2013' if '\u2013' in time_str else '-'
+    parts = time_str.split(sep)
+    if len(parts) != 2:
+        return None
+    try:
+        start = datetime.strptime(parts[0].strip(), '%I:%M%p')
+        end = datetime.strptime(parts[1].strip(), '%I:%M%p')
+    except ValueError:
+        return None
+    start = start.replace(year=event_day.year, month=event_day.month, day=event_day.day)
+    end = end.replace(year=event_day.year, month=event_day.month, day=event_day.day)
+    return start, end
+
 def create_event(event_title, start_time, end_time, event_location, tz):
     """Create an iCalendar event"""
 
