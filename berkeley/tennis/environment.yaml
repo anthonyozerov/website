@@ -4,8 +4,6 @@ dependencies:
   - pip
   - pip:
     - pyyaml
-    - pandas
     - jinja2
-    - numpy
     - astral
     - requests

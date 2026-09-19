@@ -1,15 +1,46 @@
 <!--#set var="title" value="Berkeley tennis court availability"-->
 <!--#include virtual="/head.html"-->
 <!--#include virtual="/header.html"-->
-<p>This page shows the availability of tennis courts in Berkeley, CA today. It is designed to help find a non-reserved court to go play at for free. The data should be updated every 10min—thanks to my friend João Vitor for helping make the scraper fast enough for this!</p>
+<p>This page helps you find a non-reserved tennis court in Berkeley, CA for walk-up play today. The data should be updated every 10 minutes—thanks to my friend João Vitor for helping make the scraper fast enough for this! Times are in Berkeley's local time.</p>
 
-<p>The data are pulled from court reservation information on the city's <a href="https://ca-berkeley.civicrec.com/CA/berkeley-ca/catalog/index/50900cc08e08223966673cbdc0c1b7e3">recreation website</a> with the following rules:</p>
+<p>The data come from the city's <a href="https://ca-berkeley.civicrec.com/CA/berkeley-ca/catalog/index/50900cc08e08223966673cbdc0c1b7e3">reservation website</a>. We check each court's reservation hours for today's date, including seasonal changes:</p>
 <ul>
-    <li>Any available reservation times are marked as available.</li>
-    <li>Other times within the reservation period of the court are marked as unavailable, as it is presumably reserved. (note: I don't know the reservation period of most of the courts)</li>
-    <li>Any other times are marked as available</li>
+    <li><strong>Available (green):</strong> a court to try for free walk-up play. The hour is unreserved, outside the court's seasonal booking hours, or on a designated walk-up court.</li>
+    <li><strong>Reserved / blocked:</strong> within reservation hours, but not listed as available. It may be reserved, used for a program, or closed.</li>
+    <li><strong>Available + times (yellow):</strong> only the listed portion of the hour is free, such as 15:00–15:15.</li>
+    <li><strong>Unknown:</strong> we could not verify the reservation data.</li>
 </ul>
-The 1hr blocks I show extend 06:00-22:00 as that is when the parks are officially open.
+<p>These are reservation records, not a live occupancy check: other walk-up players may already be on court. For unlit courts, the natural-light column shows daylight separately from the city's booking hours. Sunrise and sunset are estimates, not court closing times.</p>
+<style>
+    .court-table { overflow-x: auto; }
+    .court-table table { border-collapse: collapse; margin-bottom: 1.5em; }
+    .court-table th, .court-table td { border: 1px solid #bbb; padding: .35em .55em; }
+    .court-table th { white-space: nowrap; }
+    .booking.available { background: #c7f3c7; }
+    .booking.reserved { background: #ffd0d0; }
+    .booking.partial, .booking.unknown { background: #fff0bd; }
+    #tennis-stale { padding: .75em; background: #fff0bd; }
+    #tennis-data.is-stale td.booking { background: #fff0bd !important; }
+</style>
 <hr>
 <!--#include virtual="data.html"-->
+<script>
+    function checkTennisFreshness() {
+        const data = document.getElementById('tennis-data');
+        if (!data) return;
+        const updated = Date.parse(data.dataset.updated);
+        const now = new Date();
+        const today = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit'
+        }).format(now);
+        const age = now.getTime() - updated;
+        if (!Number.isFinite(updated) || age > 30 * 60 * 1000 || age < -5 * 60 * 1000 || data.dataset.date !== today) {
+            document.getElementById('tennis-stale').hidden = false;
+            data.classList.add('is-stale');
+            data.querySelectorAll('td.booking').forEach(cell => { cell.textContent = 'Unknown (stale)'; });
+        }
+    }
+    checkTennisFreshness();
+    setInterval(checkTennisFreshness, 60 * 1000);
+</script>
 <!--#include virtual="/footer.html"-->

@@ -1,82 +1,75 @@
+# Court names map to CivicRec IDs; null means a designated walk-up court.
+# Reservation windows are fetched per court/date from CivicRec.
 rose-garden:
-  name: 'Berkeley Rose Garden'
+  name: Berkeley Rose Garden
   opens: '6:00'
   closes: '22:00'
-  res_opens: '7:00'
-  res_closes: '18:00'
-  courts: ['Tennis Court #1', 'Tennis Court #2']
-  courts_id: ['77101', '77103']
-  unreservable: ['Tennis Court #3']
-  lights: False
-  wall: True
+  courts:
+    'Tennis Court #1': '77101'
+    'Tennis Court #2': '77103'
+    'Tennis Court #3': null
+  lights: false
+  wall: true
 cedar-rose:
-  name: 'Cedar Rose Park'
+  name: Cedar Rose Park
   opens: '6:00'
   closes: '22:00'
-  res_opens: '7:00'
-  res_closes: '18:00'
-  courts: ['Tennis Court #1', 'Tennis Court #2']
-  courts_id: ['68499', '77102']
-  lights: False
-  wall: False
+  courts:
+    'Tennis Court #1': '68499'
+    'Tennis Court #2': '77102'
+  lights: false
+  wall: false
 grove:
-  name: 'Grove Park'
+  name: Grove Park
   opens: '6:00'
   closes: '22:00'
-  res_opens: '7:00'
-  res_closes: '22:00'
-  courts: ['Tennis Court #1', 'Tennis Court #2']
-  courts_id: ['68523', '77093']
-  unreservable: ['Tennis Court #3']
-  lights: True
-  wall: False
+  courts:
+    'Tennis Court #1': '68523'
+    'Tennis Court #2': '77093'
+    'Tennis Court #3': null
+  lights: true
+  wall: false
 james-kenney:
-  name: 'James Kenney Park'
+  name: James Kenney Park
   opens: '6:00'
   closes: '22:00'
-  res_opens: '7:00'
-  res_closes: '22:00'
-  courts: ['Tennis Court #1', 'Tennis Court #2']
-  courts_id: ['68555', '77106']
-  lights: True
-  wall: True
+  courts:
+    'Tennis Court #1': '68555'
+    'Tennis Court #2': '77106'
+  lights: true
+  wall: true
 live-oak:
-  name: 'Live Oak Park'
+  name: Live Oak Park
   opens: '6:00'
   closes: '22:00'
-  res_opens: '7:00'
-  res_closes: '22:00'
-  courts: ['Tennis Court #1', 'Tennis Court #2']
-  courts_id: ['68491', '77107']
-  lights: True
-  wall: False
+  courts:
+    'Tennis Court #1': '68491'
+    'Tennis Court #2': '77107'
+  lights: true
+  wall: true
 san-pablo:
-  name: 'San Pablo Park'
+  name: San Pablo Park
   opens: '6:00'
   closes: '22:00'
-  res_opens: '7:00'
-  res_closes: '22:00'
-  courts: ['Tennis Court #1', 'Tennis Court #2']
-  courts_id: ['68573', '77108']
-  lights: True
-  wall: True
+  courts:
+    'Tennis Court #1': '68573'
+    'Tennis Court #2': '77108'
+  lights: true
+  wall: true
 strawberry-creek:
-  name: 'Strawberry Creek Park'
+  name: Strawberry Creek Park
   opens: '6:00'
   closes: '22:00'
-  res_opens: '7:00'
-  res_closes: '22:00'
-  courts: ['Tennis Court']
-  courts_id: ['68581']
-  lights: True
-  wall: False
+  courts:
+    Tennis Court: '68581'
+  lights: true
+  wall: false
 willard:
-  name: 'Willard Park'
+  name: Willard Park
   opens: '6:00'
   closes: '22:00'
-  res_opens: '7:00'
-  res_closes: '22:00'
-  courts: ['Tennis Court #1', 'Tennis Court #2']
-  courts_id: ['68579', '77113']
-  lights: True
-  wall: True
+  courts:
+    'Tennis Court #1': '68579'
+    'Tennis Court #2': '77113'
+  lights: true
+  wall: true

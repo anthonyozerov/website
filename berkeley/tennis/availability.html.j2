@@ -1,0 +1,40 @@
+<section id="tennis-data" data-date="{{ day }}" data-updated="{{ updated.isoformat() }}">
+<p>Schedule for {{ day }}. Checked:
+    <time datetime="{{ updated.isoformat() }}">{{ updated.strftime('%Y-%m-%d %H:%M %Z') }}</time>.</p>
+<p id="tennis-stale" role="status" hidden>These data are out of date.
+    Check the city reservation website for current availability.</p>
+<p>Sunrise: {{ sunlight.sunrise.strftime('%H:%M') }};
+    sunset: {{ sunlight.sunset.strftime('%H:%M') }} (Berkeley time).</p>
+{% if failed %}
+<p role="status">Some court data could not be checked. Those courts are marked Unknown.</p>
+{% endif %}
+{% for park in parks %}
+<h2>{{ park.name }}</h2>
+<p>Park hours: {{ park.opens }}–{{ park.closes }}.
+    {{ 'Has lights.' if park.lights else 'No lights.' }}
+    {{ 'Has practice wall.' if park.wall else 'No practice wall.' }}</p>
+<ul>
+    {% for name, hours in park.hours.items() %}
+    <li>{{ name }}: Reservation hours: {{ hours }}</li>
+    {% endfor %}
+</ul>
+<div class="court-table">
+<table>
+    <thead><tr>
+        <th scope="col">Time</th>
+        {% if not park.lights %}<th scope="col">Natural light</th>{% endif %}
+        {% for name in park.courts %}<th scope="col">{{ name }}</th>{% endfor %}
+    </tr></thead>
+    <tbody>
+    {% for time, light, cells in park.rows %}
+    <tr>
+        <th scope="row">{{ time }}</th>
+        {% if not park.lights %}<td class="daylight">{{ light }}</td>{% endif %}
+        {% for status, label in cells %}<td class="booking {{ status }}">{{ label }}</td>{% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endfor %}
+</section>
